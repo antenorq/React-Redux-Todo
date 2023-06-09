@@ -6,8 +6,9 @@ import Container from "react-bootstrap/Container";
 
 //Components
 import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Login from "./pages/Login";
+import TodoList from "./pages/TodoList";
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
       <Container>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/list" element={<TodoList />} />
         </Routes>
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
