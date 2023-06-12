@@ -1,15 +1,17 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTodos, deleteTodo } from "../slices/todoSlice";
-import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const TodoList = () => {
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.items);
   const loading = useSelector((state) => state.todos.loading);
+  const error = useSelector((state) => state.todos.error);
+  const success = useSelector((state) => state.todos.success);
 
-  console.log(todos);
-  console.log(loading);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getTodos());
@@ -22,51 +24,48 @@ const TodoList = () => {
   return (
     <div>
       {loading ? "LOADING" : ""}
-      {todos.map((todo, index) => (
-        <Container key={index}>
-          <Row>
-            <Col style={{ border: "solid 1px #000" }}>{todo.title}</Col>
-            <Col style={{ border: "solid 1px #000" }}>
-              {todo.completed ? "complete" : "incomplete"}
-            </Col>
-            <Col style={{ border: "solid 1px #000" }}>
-              <Button onClick={() => handleDelete(todo.id)}>Delete</Button>
-            </Col>
-          </Row>
-        </Container>
+      {error ? "ERROR: " + error : ""}
+      {success ? "SUCCESS: " + success : ""}
 
+      <Button variant="success" size="sm" onClick={() => navigate("/add")}>
+        ADD TODO
+      </Button>
 
-<thead>
-  <tr>
-    <th>ID</th>
-    <th>To Do</th>
-    <th>Status</th>
-    <th>Actions</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>1</td>
-    <td>Mark</td>
-    <td>Otto</td>
-    <td>@mdo</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>Jacob</td>
-    <td>Thornton</td>
-    <td>@fat</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td colSpan={2}>Larry the Bird</td>
-    <td>@twitter</td>
-  </tr>
-</tbody>
-</Table>
-
-
-      ))}
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>To Do</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {todos.map((todo, index) => (
+            <tr key={index}>
+              <td>{todo.id}</td>
+              <td>{todo.title}</td>
+              <td>{todo.completed ? "complete" : "incomplete"}</td>
+              <td align="right">
+                <Button
+                  variant="info"
+                  size="sm"
+                  onClick={() => navigate("/edit/" + todo.id)}
+                >
+                  Edit
+                </Button>{" "}
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleDelete(todo.id)}
+                >
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   );
 };

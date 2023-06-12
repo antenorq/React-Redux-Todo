@@ -9,6 +9,8 @@ import NavBar from "./components/NavBar";
 // import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import TodoList from "./pages/TodoList";
+import AddTodo from "./pages/AddTodo";
+import EditTodo from "./pages/EditTodo";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/list" element={<TodoList />} />
+          <Route path="/add" element={<AddTodo />} />
+          <Route path="/edit/:id" element={<EditTodo />} />
         </Routes>
       </Container>
       {/* <Footer /> */}

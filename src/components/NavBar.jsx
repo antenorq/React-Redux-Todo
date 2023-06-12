@@ -29,9 +29,15 @@ function NavBar() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <NavLink to="/">Home</NavLink>
-
-              <NavLink to="/list">List</NavLink>
+              <Nav.Link as={NavLink} to="/">
+                Home
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/list">
+                List
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/add">
+                Add
+              </Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
