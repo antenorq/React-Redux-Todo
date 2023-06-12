@@ -3,8 +3,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function NavBar() {
+  const user = useSelector((state) => state.user.user);
+
   const expand = "md";
   return (
     <Navbar
@@ -29,6 +32,12 @@ function NavBar() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
+              {user ? (
+                <Nav.Link as={NavLink} to="/list">
+                  {user.email}
+                </Nav.Link>
+              ) : null}
+
               <Nav.Link as={NavLink} to="/">
                 Home
               </Nav.Link>

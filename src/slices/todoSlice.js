@@ -37,6 +37,7 @@ const todoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      //getTodos/////////////////
       .addCase(getTodos.pending, (state) => {
         state.loading = true;
       })
@@ -48,6 +49,7 @@ const todoSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      //addTodo////////////////////
       .addCase(addTodo.fulfilled, (state, action) => {
         state.items.push(action.payload);
       })
@@ -58,6 +60,7 @@ const todoSlice = createSlice({
       .addCase(editTodo.pending, (state) => {
         state.loading = true;
       })
+      //editTodo////////////////////
       .addCase(editTodo.fulfilled, (state, action) => {
         const index = state.items.findIndex(
           (item) => item.id === action.payload.id
@@ -70,6 +73,7 @@ const todoSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      //deleteTodo////////////////////
       .addCase(deleteTodo.pending, (state) => {
         state.loading = true;
       })
