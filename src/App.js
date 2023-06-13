@@ -28,24 +28,22 @@ function App() {
   const errortodo = useSelector((state) => state.todos.error);
   const successtodo = useSelector((state) => state.todos.success);
 
-  if (user) {
-    console.log(user.user.name);
-  }
-  console.log(success);
-
   return (
     <BrowserRouter>
       <NavBar />
       <Container>
-        {loading ? "LOADING" : ""}
-        {error ? <Alert variant="danger">USER ERROR: {error}</Alert> : null}
-        {success ? (
-          <Alert variant="success">USER SUCCESS: {success}</Alert>
+        {loading || loadingtodo ? "LOADING" : ""}
+        {error || errortodo ? (
+          <Alert variant="danger">
+            {error} - {errortodo}
+          </Alert>
+        ) : null}
+        {success || successtodo ? (
+          <Alert variant="success">
+            {success} - {successtodo}
+          </Alert>
         ) : null}
 
-        {loadingtodo ? "LOADING TODOS" : ""}
-        {errortodo ? "ERROR: " + errortodo : ""}
-        {successtodo ? "SUCCESS: " + successtodo : ""}
         <Routes>
           <Route path="/" element={user ? <TodoList /> : <Login />} />
           <Route path="/list" element={user ? <TodoList /> : <Login />} />
@@ -53,7 +51,6 @@ function App() {
           <Route path="/edit/:id" element={user ? <EditTodo /> : <Login />} />
         </Routes>
       </Container>
-      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

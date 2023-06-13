@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodo, editTodo } from "../slices/todoSlice";
 import { useNavigate } from "react-router-dom";
 
 //Bootstrap
 import { Container, Card, Form, Button } from "react-bootstrap";
+
+//redux
+import { resettodo, addTodo, editTodo } from "../slices/todoSlice";
+import { resetuser } from "../slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const TodoForm = ({ type, id }) => {
   const [title, setTitle] = useState("");
@@ -12,15 +15,20 @@ const TodoForm = ({ type, id }) => {
 
   const todos = useSelector((state) => state.todos.items);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(resettodo());
+    dispatch(resetuser());
+  }, [dispatch]);
+
   useEffect(() => {
     if (id) {
       const todo = todos.find((item) => item.id == id);
       setTitle(todo.title);
     }
   }, [id, todos]);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();

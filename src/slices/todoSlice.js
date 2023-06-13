@@ -34,7 +34,13 @@ const todoSlice = createSlice({
     error: null,
     success: null,
   },
-  reducers: {},
+  reducers: {
+    resettodo: (state) => {
+      state.loading = false;
+      state.error = null;
+      state.success = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //getTodos/////////////////
@@ -44,6 +50,8 @@ const todoSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
+        state.success = "LOADED SUCCESSFULLY";
+        state.error = null;
       })
       .addCase(getTodos.rejected, (state, action) => {
         state.loading = false;
@@ -52,6 +60,8 @@ const todoSlice = createSlice({
       //addTodo////////////////////
       .addCase(addTodo.fulfilled, (state, action) => {
         state.items.push(action.payload);
+        state.success = "ADDED SUCCESSFULLY";
+        state.error = null;
       })
       .addCase(addTodo.rejected, (state, action) => {
         state.loading = false;
@@ -67,6 +77,8 @@ const todoSlice = createSlice({
         );
         if (index !== -1) {
           state.items[index] = action.payload;
+          state.success = "EDITED SUCCESSFULLY";
+          state.error = null;
         }
       })
       .addCase(editTodo.rejected, (state, action) => {
@@ -80,6 +92,8 @@ const todoSlice = createSlice({
       .addCase(deleteTodo.fulfilled, (state, action) => {
         state.loading = false;
         state.items = state.items.filter((item) => item.id !== action.payload);
+        state.success = "DELETED SUCCESSFULLY";
+        state.error = null;
       })
       .addCase(deleteTodo.rejected, (state, action) => {
         state.loading = false;
@@ -88,4 +102,5 @@ const todoSlice = createSlice({
   },
 });
 
+export const { resettodo } = todoSlice.actions;
 export default todoSlice.reducer;
