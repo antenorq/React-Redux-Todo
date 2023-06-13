@@ -50,7 +50,7 @@ const todoSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        state.success = "LOADED SUCCESSFULLY";
+        //state.success = "LOADED SUCCESSFULLY";
         state.error = null;
       })
       .addCase(getTodos.rejected, (state, action) => {

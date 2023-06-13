@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
 
 //Components
 import NavBar from "./components/NavBar";
@@ -32,15 +33,15 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Container>
-        {loading || loadingtodo ? "LOADING" : ""}
+        {loading || loadingtodo ? <Spinner animation="border" /> : ""}
         {error || errortodo ? (
           <Alert variant="danger">
-            {error} - {errortodo}
+            {error} {errortodo}
           </Alert>
         ) : null}
         {success || successtodo ? (
           <Alert variant="success">
-            {success} - {successtodo}
+            {success} {successtodo}
           </Alert>
         ) : null}
 

@@ -1,12 +1,20 @@
+import { useState } from "react";
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
 
 function NavBar() {
   const user = useSelector((state) => state.user.user);
+
+  //control show or hide offcanvas
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const expand = "md";
   return (
@@ -19,33 +27,30 @@ function NavBar() {
     >
       <Container>
         <Navbar.Brand href="/">React TODO</Navbar.Brand>
-        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-        <Navbar.Offcanvas
-          id={`offcanvasNavbar-expand-${expand}`}
-          aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-          placement="end"
-        >
+        <Navbar.Toggle onClick={handleShow} />
+        <Navbar.Offcanvas show={show} onHide={handleClose} placement="end">
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-              MENU
-            </Offcanvas.Title>
+            <Offcanvas.Title>MENU</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Nav className="justify-content-end flex-grow-1 pe-3">
+            <Nav
+              onClick={handleClose}
+              className="justify-content-end flex-grow-1 pe-3"
+            >
               {user ? (
-                <Nav.Link as={NavLink} to="/list">
-                  {user.email}
+                <Nav.Link as={NavLink} to="/">
+                  {user.user.name}
                 </Nav.Link>
               ) : null}
 
               <Nav.Link as={NavLink} to="/">
-                Home
+                <Button>Home</Button>
               </Nav.Link>
               <Nav.Link as={NavLink} to="/list">
-                List
+                <Button data-bs-dismiss>List</Button>
               </Nav.Link>
               <Nav.Link as={NavLink} to="/add">
-                Add
+                <Button data-bs-dismiss>Add</Button>
               </Nav.Link>
             </Nav>
           </Offcanvas.Body>
