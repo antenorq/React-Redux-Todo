@@ -8,11 +8,11 @@ import Spinner from "react-bootstrap/Spinner";
 
 //Components
 import NavBar from "./components/NavBar";
-// import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import TodoList from "./pages/TodoList";
 import AddTodo from "./pages/AddTodo";
 import EditTodo from "./pages/EditTodo";
+import Register from "./pages/Register";
 
 //redux
 import { useSelector } from "react-redux";
@@ -50,6 +50,10 @@ function App() {
           <Route path="/list" element={user ? <TodoList /> : <Login />} />
           <Route path="/add" element={user ? <AddTodo /> : <Login />} />
           <Route path="/edit/:id" element={user ? <EditTodo /> : <Login />} />
+          <Route
+            path="/register"
+            element={user ? <TodoList /> : <Register />}
+          />
         </Routes>
       </Container>
     </BrowserRouter>

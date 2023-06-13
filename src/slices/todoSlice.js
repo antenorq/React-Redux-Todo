@@ -3,8 +3,8 @@ import axios from "axios";
 import { api } from "../utils/config";
 
 // Async thunk for get todos from the API
-export const getTodos = createAsyncThunk("todos/getTodos", async () => {
-  const response = await axios.get(api + "/todo");
+export const getTodos = createAsyncThunk("todos/getTodos", async (user_id) => {
+  const response = await axios.get(api + "/todo?user_id=" + user_id);
   return response.data;
 });
 
@@ -35,8 +35,7 @@ const todoSlice = createSlice({
     success: null,
   },
   reducers: {
-    resettodo: (state) => {
-      state.loading = false;
+    resetMessageTodo: (state) => {
       state.error = null;
       state.success = null;
     },
@@ -102,5 +101,5 @@ const todoSlice = createSlice({
   },
 });
 
-export const { resettodo } = todoSlice.actions;
+export const { resetMessageTodo } = todoSlice.actions;
 export default todoSlice.reducer;

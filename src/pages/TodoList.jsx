@@ -8,12 +8,14 @@ import { getTodos, deleteTodo } from "../slices/todoSlice";
 
 const TodoList = () => {
   const dispatch = useDispatch();
+
   const todos = useSelector((state) => state.todos.items);
+  const user = useSelector((state) => state.user.user);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getTodos());
+    dispatch(getTodos(user.user.id));
   }, [dispatch]);
 
   const handleDelete = (id) => {

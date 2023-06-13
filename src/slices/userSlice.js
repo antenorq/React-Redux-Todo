@@ -10,7 +10,25 @@ export const userLogin = createAsyncThunk(
   async (userdata, thunkAPI) => {
     try {
       const response = await axios.post(api + "/login", userdata);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      if (response.data) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Async thunk for get User from API
+export const userRegister = createAsyncThunk(
+  "user/userRegister",
+  async (userdata, thunkAPI) => {
+    try {
+      const response = await axios.post(api + "/users", userdata);
+      if (response.data) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -27,14 +45,17 @@ const userSlice = createSlice({
     success: null,
   },
   reducers: {
-    resetuser: (state) => {
-      state.loading = false;
+    resetMessageUser: (state) => {
       state.error = null;
       state.success = null;
+    },
+    userLogout: (state) => {
+      state.user = null;
     },
   },
   extraReducers: (builder) => {
     builder
+      //LOGIN
       .addCase(userLogin.pending, (state) => {
         state.loading = true;
       })
@@ -47,9 +68,24 @@ const userSlice = createSlice({
       .addCase(userLogin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      //REGISTER
+      .addCase(userRegister.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(userRegister.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.success = "Registered Successfuly";
+        state.error = null;
+      })
+      .addCase(userRegister.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const { resetuser } = userSlice.actions;
+export const { resetMessageUser, userLogout } = userSlice.actions;
 export default userSlice.reducer;

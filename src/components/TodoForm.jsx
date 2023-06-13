@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Container, Card, Form, Button } from "react-bootstrap";
 
 //redux
-import { resettodo, addTodo, editTodo } from "../slices/todoSlice";
-import { resetuser } from "../slices/userSlice";
+import { addTodo, editTodo } from "../slices/todoSlice";
+import { resetMessageUser } from "../slices/userSlice";
+import { resetMessageTodo } from "../slices/todoSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const TodoForm = ({ type, id }) => {
@@ -14,13 +15,14 @@ const TodoForm = ({ type, id }) => {
   const [completed, setCompleted] = useState(false);
 
   const todos = useSelector((state) => state.todos.items);
+  const user = useSelector((state) => state.user.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(resettodo());
-    dispatch(resetuser());
+    dispatch(resetMessageUser());
+    dispatch(resetMessageTodo());
   }, [dispatch]);
 
   useEffect(() => {
@@ -34,10 +36,14 @@ const TodoForm = ({ type, id }) => {
     e.preventDefault();
 
     if (type === "ADD") {
-      dispatch(addTodo({ user_id: 1, title: title.trim(), completed }));
+      dispatch(
+        addTodo({ user_id: user.user.id, title: title.trim(), completed })
+      );
     }
     if (type === "EDIT") {
-      dispatch(editTodo({ user_id: 1, id, title: title.trim(), completed }));
+      dispatch(
+        editTodo({ user_id: user.user.id, id, title: title.trim(), completed })
+      );
     }
 
     setTitle("");

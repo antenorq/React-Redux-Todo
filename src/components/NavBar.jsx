@@ -4,17 +4,34 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+
+//redux
+import { resetMessageUser, userLogout } from "../slices/userSlice";
+import { resetMessageTodo } from "../slices/todoSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function NavBar() {
   const user = useSelector((state) => state.user.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //control show or hide offcanvas
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleLogout = () => {
+    dispatch(resetMessageUser());
+    dispatch(resetMessageTodo());
+
+    dispatch(userLogout());
+
+    localStorage.clear();
+    navigate("/");
+  };
 
   const expand = "md";
   return (
@@ -26,7 +43,7 @@ function NavBar() {
       expand={expand}
     >
       <Container>
-        <Navbar.Brand href="/">React TODO</Navbar.Brand>
+        <Navbar.Brand href="/">React Redux ToDo</Navbar.Brand>
         <Navbar.Toggle onClick={handleShow} />
         <Navbar.Offcanvas show={show} onHide={handleClose} placement="end">
           <Offcanvas.Header closeButton>
@@ -37,21 +54,22 @@ function NavBar() {
               onClick={handleClose}
               className="justify-content-end flex-grow-1 pe-3"
             >
-              {user ? (
-                <Nav.Link as={NavLink} to="/">
-                  {user.user.name}
-                </Nav.Link>
-              ) : null}
-
               <Nav.Link as={NavLink} to="/">
                 <Button>Home</Button>
               </Nav.Link>
               <Nav.Link as={NavLink} to="/list">
-                <Button data-bs-dismiss>List</Button>
+                <Button>List</Button>
               </Nav.Link>
               <Nav.Link as={NavLink} to="/add">
-                <Button data-bs-dismiss>Add</Button>
+                <Button variant="success">Add</Button>
               </Nav.Link>
+              {user ? (
+                <Nav.Link as={NavLink} to="/">
+                  <Button variant="danger" onClick={handleLogout}>
+                    Logout ({user.user.name})
+                  </Button>
+                </Nav.Link>
+              ) : null}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

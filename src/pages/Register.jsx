@@ -1,27 +1,32 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+
+//bootstrap
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import { useNavigate, Link } from "react-router-dom";
 
 //redux
 import { useDispatch } from "react-redux";
-import { userLogin } from "../slices/userSlice";
+import { userRegister } from "../slices/userSlice";
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState("");
+  const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(userLogin({ email, password }));
+    dispatch(userRegister({ name, login, email, password }));
 
+    setName("");
+    setLogin("");
     setEmail("");
     setPassword("");
     navigate("/list");
@@ -33,6 +38,26 @@ const Login = () => {
         <Card.Header>LOGIN</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                name="name"
+                value={name}
+                placeholder="Enter name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Login</Form.Label>
+              <Form.Control
+                name="login"
+                value={login}
+                placeholder="Enter login"
+                onChange={(e) => setLogin(e.target.value)}
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -57,7 +82,9 @@ const Login = () => {
 
             <Button type="submit">Submit</Button>
 
-            <Link to="/register">{"Don't have an account? Sign Up"}</Link>
+            <Link to="/register" style={{ textDecoration: "none !important" }}>
+              Don't have an account? Sign Up
+            </Link>
           </Form>
         </Card.Body>
       </Card>
@@ -65,4 +92,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
