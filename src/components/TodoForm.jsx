@@ -31,7 +31,6 @@ const TodoForm = ({ type, id }) => {
       const todo = todos.find((item) => item.id === Number(id));
       setTitle(todo.title);
       setCompleted(todo.completed);
-      console.log("completed: " + todo.completed);
     }
   }, [id, todos]);
 
