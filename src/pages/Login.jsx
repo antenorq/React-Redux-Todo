@@ -30,7 +30,12 @@ const Login = () => {
   return (
     <Container style={{ maxWidth: "500px" }}>
       <Card>
-        <Card.Header>LOGIN</Card.Header>
+        <Card.Header>
+          LOGIN -{" "}
+          <span style={{ fontSize: "12px", float: "right" }}>
+            User example to test (demo@demo.com/123456)
+          </span>
+        </Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -57,7 +62,12 @@ const Login = () => {
 
             <Button type="submit">Submit</Button>
 
-            <Link to="/register">{"Don't have an account? Sign Up"}</Link>
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", color: "#666", float: "right" }}
+            >
+              Don't have an account? Sign Up
+            </Link>
           </Form>
         </Card.Body>
       </Card>

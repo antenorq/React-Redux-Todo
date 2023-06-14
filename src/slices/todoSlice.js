@@ -2,11 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { api } from "../utils/config";
 
+const items = JSON.parse(localStorage.getItem("items"));
+
 // Async thunk for get todos from the API
-export const getTodos = createAsyncThunk("todos/getTodos", async (user_id) => {
-  const response = await axios.get(api + "/todo?user_id=" + user_id);
-  return response.data;
-});
+export const getTodos = createAsyncThunk(
+  "todos/getTodos",
+  async (user_id, thunkAPI) => {
+    try {
+      const response = await axios.get(api + "/todo?user_id=" + user_id);
+      if (response.data) {
+        localStorage.setItem("items", JSON.stringify(response.data));
+      }
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 // Async thunk for add a new todo
 export const addTodo = createAsyncThunk("todos/addTodo", async (todo) => {
@@ -29,7 +41,7 @@ export const deleteTodo = createAsyncThunk("todos/deleteTodo", async (id) => {
 const todoSlice = createSlice({
   name: "todos",
   initialState: {
-    items: [],
+    items: items ? items : [],
     loading: false,
     error: null,
     success: null,
@@ -79,6 +91,7 @@ const todoSlice = createSlice({
           state.success = "EDITED SUCCESSFULLY";
           state.error = null;
         }
+        localStorage.setItem("items", JSON.stringify(state.items));
       })
       .addCase(editTodo.rejected, (state, action) => {
         state.loading = false;

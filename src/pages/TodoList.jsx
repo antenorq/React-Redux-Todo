@@ -16,7 +16,7 @@ const TodoList = () => {
 
   useEffect(() => {
     dispatch(getTodos(user.user.id));
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const handleDelete = (id) => {
     dispatch(deleteTodo(id));
@@ -46,7 +46,7 @@ const TodoList = () => {
               <tr key={index}>
                 <td>{todo.id}</td>
                 <td>{todo.title}</td>
-                <td>{todo.completed ? "complete" : "incomplete"}</td>
+                <td>{todo.completed === "true" ? "complete" : "incomplete"}</td>
                 <td align="right">
                   <Button
                     variant="info"

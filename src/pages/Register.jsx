@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //bootstrap
 import Container from "react-bootstrap/Container";
@@ -35,7 +35,7 @@ const Register = () => {
   return (
     <Container style={{ maxWidth: "500px" }}>
       <Card>
-        <Card.Header>LOGIN</Card.Header>
+        <Card.Header>REGISTER</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -81,10 +81,6 @@ const Register = () => {
             </Form.Group>
 
             <Button type="submit">Submit</Button>
-
-            <Link to="/register" style={{ textDecoration: "none !important" }}>
-              Don't have an account? Sign Up
-            </Link>
           </Form>
         </Card.Body>
       </Card>

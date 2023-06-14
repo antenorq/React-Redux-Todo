@@ -12,11 +12,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const TodoForm = ({ type, id }) => {
   const [title, setTitle] = useState("");
-  const [completed, setCompleted] = useState(false);
+  const [completed, setCompleted] = useState("false");
+
+  //const radio_true = completed ? true : false;
 
   const todos = useSelector((state) => state.todos.items);
   const user = useSelector((state) => state.user.user);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,8 +28,10 @@ const TodoForm = ({ type, id }) => {
 
   useEffect(() => {
     if (id) {
-      const todo = todos.find((item) => item.id == id);
+      const todo = todos.find((item) => item.id === Number(id));
       setTitle(todo.title);
+      setCompleted(todo.completed);
+      console.log("completed: " + todo.completed);
     }
   }, [id, todos]);
 
@@ -37,12 +40,21 @@ const TodoForm = ({ type, id }) => {
 
     if (type === "ADD") {
       dispatch(
-        addTodo({ user_id: user.user.id, title: title.trim(), completed })
+        addTodo({
+          user_id: user.user.id,
+          title: title.trim(),
+          completed: completed === "true" ? "true" : "false",
+        })
       );
     }
     if (type === "EDIT") {
       dispatch(
-        editTodo({ user_id: user.user.id, id, title: title.trim(), completed })
+        editTodo({
+          user_id: user.user.id,
+          id,
+          title: title.trim(),
+          completed: completed === "true" ? "true" : "false",
+        })
       );
     }
 
@@ -68,11 +80,22 @@ const TodoForm = ({ type, id }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formCompleted">
-              <Form.Label>Completed</Form.Label>
-              <Form.Control
-                type="text "
-                placeholder="Completed"
-                value={completed}
+              <Form.Check
+                inline
+                label="Completed"
+                name="group1"
+                type="radio"
+                value="true"
+                checked={completed === "true" ? true : false}
+                onChange={(e) => setCompleted(e.target.value)}
+              />
+              <Form.Check
+                inline
+                label="Not Completed"
+                name="group1"
+                type="radio"
+                value="false"
+                checked={completed === "false" ? true : false}
                 onChange={(e) => setCompleted(e.target.value)}
               />
             </Form.Group>
